@@ -34,3 +34,11 @@
 - 3.10 [delete](./docs/03-slices-e-arrays/3.10-delete.md)
 
 
+## Seção 04: Funções
+- 4.1 [Conceito de lista](./docs/04-funcoes/4.1-funcoes.md)
+- 4.2 [Criando listas](./docs/04-funcoes/4.2-funcoes-com-retorno.md)
+- 4.3 [make e for para listas](./docs/04-funcoes/4.3-retorno-mais-de-um-valor.md)
+- 4.4 [sublistas](./docs/04-funcoes/4.4-retorno-nomeado.md)
+- 4.5 [index](./docs/04-funcoes/4.5-escopo.md)
+- 4.6 [arrays x slices](./docs/04-funcoes/4.6-funcao-init.md)
+
