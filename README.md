@@ -22,12 +22,15 @@
 
 
 ## Seção 03: Slices e Arrays
-- 2.1 [if](./docs/02-controle-de-fluxo/2.1-if.md)
-- 2.2 [else](./docs/02-controle-de-fluxo/2.2-else.md)
-- 2.3 [Operadores lógicos](./docs/02-controle-de-fluxo/2.3-Operadores-logicos.md)
-- 2.4 [for](./docs/02-controle-de-fluxo/2.4-for.md)
-- 2.5 [break e continue](./docs/02-controle-de-fluxo/2.5-break-and-continue.md)
-- 2.6 [Não existe while](./docs/02-controle-de-fluxo/2.6-Nao-Existe-while.md)
-- 2.7 [for aninhados](./docs/02-controle-de-fluxo/2.7-for-aninhados.md)
+- 3.1 [Conceito de lista](./docs/03-slices-e-arrays/3.1-conceito-de-lista.md)
+- 3.2 [Criando listas](./docs/03-slices-e-arrays/3.2-criando-listas.md)
+- 3.3 [make e for para listas](./docs/03-slices-e-arrays/3.3-make-e-for-para-listas.md)
+- 3.4 [sublistas](./docs/03-slices-e-arrays/3.4-sublistas.md)
+- 3.5 [index](./docs/03-slices-e-arrays/3.5-index.md)
+- 3.6 [arrays x slices](./docs/03-slices-e-arrays/3.6-arrays-x-slices.md)
+- 3.7 [maps](./docs/03-slices-e-arrays/3.7-maps.md)
+- 3.8 [maps na prática](./docs/03-slices-e-arrays/3.8-maps-na-pratica.md)
+- 3.9 [range](./docs/03-slices-e-arrays/3.9-range.md)
+- 3.10 [delete](./docs/03-slices-e-arrays/3.10-delete.md)
 
 
