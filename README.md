@@ -2,7 +2,7 @@
 
 ## Seção 01: Fundamentos
 - 1.1 [Caracteristicas](./docs/01-fundamentos/1.1%20-%20Caracteristicas.md)
-- 1.2 Go Playground
+- 1.2 [Go Playground](./docs/01-fundamentos/1.2%20-%20Playground.md)
 - 1.3 Estrutura do arquivo
 - 1.4 Variáveis
 - 1.5 Tipos de dados
