@@ -42,3 +42,5 @@
 - 4.5 [index](./docs/04-funcoes/4.5-escopo.md)
 - 4.6 [arrays x slices](./docs/04-funcoes/4.6-funcao-init.md)
 
+## Seção 05: Ponteiros
+- 5.1 [Conceito de ponteiro](./docs/05-ponteiros/5.1-ponteiro.md)
