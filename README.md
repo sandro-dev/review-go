@@ -53,3 +53,28 @@
 - 6.5 [métodos](./docs/06-struct/6.5-metodos.md)
 - 6.6 [alterando-dados-por-metodo](./docs/06-struct/6.6-alterando-dados-por-metodo.md)
 - 6.7 [herança](./docs/06-struct/6.7-heranca.md)
+
+## Seção 07: Interfaces
+- 7.1 [Interface](./docs/07-interfaces/7.1-interface-aula01.md)
+- 7.2 [Interface pt2](./docs/07-interfaces/7.2-interface-aula02.md)
+- 7.3 [Interface pt3](./docs/07-interfaces/7.3-interface-aula03.md)
+
+## Seção 08: Generics
+- 8.1 [generics](./docs/08-generics/8.1-generics.md)
+- 8.2 [constraints](./docs/08-generics/8.2-constraints.md)
+
+## Seção 09: Panic, defer e recover
+- 9.1 [panic](./docs/09-panic-defer-recover/9.1-panic.md)
+- 9.2 [defer](./docs/09-panic-defer-recover/9.2-defer.md)
+- 9.3[recover](./docs/09-panic-defer-recover/9.3-recover.md)
+
+## Seção 10: Pacotes
+- 10.1 [pacotes](./docs/10-pacotes/10.1-pacotes.md)
+
+## Seção 11: Goroutines
+- 11.1 [processadores-e-threads](./docs/11-goroutines/11.1-processadores-e-threads.md)
+- 11.2 [goroutines](./docs/11-goroutines/11.2-goroutines.md)
+- 11.3 [sync.WaitGroup](./docs/11-goroutines/11.3-sync-WaitGroup.md)
+- 11.4 [sync.Mutex](./docs/11-goroutines/11.4-sync-Mutex.md)
+- 11.5 [channel](./docs/11-goroutines/11.5-channel.md)
+- 11.6 [channel-buffer](./docs/11-goroutines/11.6-channel-buffer.md)
