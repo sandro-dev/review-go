@@ -44,3 +44,12 @@
 
 ## Seção 05: Ponteiros
 - 5.1 [Conceito de ponteiro](./docs/05-ponteiros/5.1-ponteiro.md)
+
+## Seção 06: Structs
+- 6.1 [go-mod](./docs/06-struct/6.1-go-mod.md)
+- 6.2 [struct](./docs/06-struct/6.2-struct.md)
+- 6.3 [encapsulamento](./docs/06-struct/6.3-encapsulamento.md)
+- 6.4 [composição](./docs/06-struct/6.4-composicao.md)
+- 6.5 [métodos](./docs/06-struct/6.5-metodos.md)
+- 6.6 [alterando-dados-por-metodo](./docs/06-struct/6.6-alterando-dados-por-metodo.md)
+- 6.7 [herança](./docs/06-struct/6.7-heranca.md)
