@@ -16,23 +16,26 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # 2. Instala a última versão do Pandoc e dependências LaTeX
+      # 2. Instala a última versão do Pandoc
       - name: Set up Pandoc
         uses: pandoc/actions/setup@v1
 
-      # 3. Cria o diretório raiz para os PDFs
+      # 3. (NOVO) Instala as dependências do LaTeX
+      - name: Install LaTeX dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends texlive-xetex texlive-fonts-recommended texlive-latex-extra
+
+      # 4. Cria o diretório raiz para os PDFs
       - name: Create PDF output directory
         run: mkdir -p pdfs
 
-      # 4. Converte os arquivos Markdown para PDF, buscando recursivamente
+      # 5. Converte os arquivos Markdown para PDF
       - name: Convert Markdown files to PDF
         run: |
           find docs -type f -name "*.md" | while read -r file; do
-            # Define o caminho de saída preservando a estrutura de pastas
             output_file="pdfs/${file#docs/}"
             output_file="${output_file%.md}.pdf"
-
-            # Cria o diretório de saída correspondente
             mkdir -p "$(dirname "$output_file")"
 
             echo "Convertendo '$file' para '$output_file'..."
@@ -43,7 +46,7 @@ jobs:
               -V mainfont="DejaVu Sans"
           done
 
-      # 5. Disponibiliza os PDFs gerados como um "artefato" do workflow
+      # 6. Disponibiliza os PDFs gerados como um "artefato"
       - name: Upload PDF artifacts
         uses: actions/upload-artifact@v4
         with:
