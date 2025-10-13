@@ -52,4 +52,4 @@ jobs:
           printf "%s" "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
 
           # O ID da pasta ainda vem do secret GDRIVE_FOLDER_ID, mas a pasta está no seu "Meu Drive"
-          rclone copy ./pdfs/ "gdrive:${{ secrets.GDRIVE_FOLDER_ID }}" --progress
+          rclone copy ./pdfs/ "googledrive:${{ secrets.GDRIVE_FOLDER_ID }}" --progress
