@@ -16,21 +16,29 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # 2. Instala a ÚLTIMA versão do Pandoc e dependências LaTeX
+      # 2. Instala a última versão do Pandoc e dependências LaTeX
       - name: Set up Pandoc
-        # CORREÇÃO: Removido o 'with:' para que a action use o comportamento padrão (instalar a versão mais recente)
         uses: pandoc/actions/setup@v1
 
-      # 3. Cria o diretório para os PDFs
+      # 3. Cria o diretório raiz para os PDFs
       - name: Create PDF output directory
         run: mkdir -p pdfs
 
-      # 4. Converte os arquivos Markdown para PDF
+      # 4. Converte os arquivos Markdown para PDF, buscando recursivamente
       - name: Convert Markdown files to PDF
         run: |
-          for file in docs/*.md; do
+          find docs -type f -name "*.md" | while read -r file; do
+            # Define o caminho de saída preservando a estrutura de pastas
+            output_file="pdfs/${file#docs/}"
+            output_file="${output_file%.md}.pdf"
+
+            # Cria o diretório de saída correspondente
+            mkdir -p "$(dirname "$output_file")"
+
+            echo "Convertendo '$file' para '$output_file'..."
+            
             pandoc "$file" \
-              -o "pdfs/$(basename "${file%.md}").pdf" \
+              -o "$output_file" \
               --pdf-engine=xelatex \
               -V mainfont="DejaVu Sans"
           done
