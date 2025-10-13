@@ -30,7 +30,7 @@ jobs:
       - name: Create PDF output directory
         run: mkdir -p pdfs
 
-      # 5. Converte os arquivos Markdown para PDF com formatação aprimorada
+      # 5. Converte os arquivos Markdown para PDF
       - name: Convert Markdown files to PDF
         run: |
           find docs -type f -name "*.md" | while read -r file; do
@@ -52,12 +52,11 @@ jobs:
           name: PDFs-gerados
           path: pdfs/
 
-      # 7. (NOVO) Faz o upload de cada PDF para o Google Drive
-      #
+      # 7. (CORRIGIDO) Faz o upload de cada PDF para o Google Drive
       - name: Upload PDFs to Google Drive
-        uses: burnett01/upload-to-google-drive@v1.0.1
+        uses: adityak74/google-drive-upload@v1
         with:
           credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
-          path: ./pdfs/
+          folder-id: ${{ secrets.GDRIVE_FOLDER_ID }}
+          source: ./pdfs/
           recursive: true
