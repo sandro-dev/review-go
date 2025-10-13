@@ -1,4 +1,4 @@
-name: Build Markdown to PDF
+name: Build Markdown to PDF and Upload to Drive
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  convert-markdown:
+  build-and-upload:
     runs-on: ubuntu-latest
     steps:
       # 1. Pega o código do seu repositório
@@ -37,21 +37,26 @@ jobs:
             output_file="pdfs/${file#docs/}"
             output_file="${output_file%.md}.pdf"
             mkdir -p "$(dirname "$output_file")"
-
             echo "Convertendo '$file' para '$output_file'..."
-            
-            pandoc "$file" \
-              -o "$output_file" \
-              --pdf-engine=xelatex \
+            pandoc "$file" -o "$output_file" --pdf-engine=xelatex \
               -V fontsize=11pt \
               -V mainfont="DejaVu Sans" \
               -V geometry:"left=2cm,right=2cm,top=2.5cm,bottom=2.5cm" \
               -V linestretch=1.2
           done
 
-      # 6. Disponibiliza os PDFs gerados como um "artefato"
-      - name: Upload PDF artifacts
+      # 6. (Opcional) Disponibiliza os PDFs como artefato no GitHub
+      - name: Upload PDF artifacts to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: PDFs-gerados
           path: pdfs/
+
+      # 7. (NOVO) Faz o upload de cada PDF para o Google Drive
+      - name: Upload PDFs to Google Drive
+        uses: burnett01/upload-to-google-drive@v1.0.1
+        with:
+          credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
+          folderId: ${{ secrets.GDRIVE_FOLDER_ID }}
+          path: ./pdfs/
+          recursive: true
