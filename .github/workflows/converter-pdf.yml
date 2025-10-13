@@ -12,25 +12,25 @@ jobs:
   build-and-upload:
     runs-on: ubuntu-latest
     steps:
-      # 1. Pega o código do seu repositório
+      # 1. Checkout
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # 2. Instala a última versão do Pandoc
+      # 2. Setup Pandoc
       - name: Set up Pandoc
         uses: pandoc/actions/setup@v1
 
-      # 3. Instala as dependências do LaTeX
+      # 3. Instala dependências LaTeX
       - name: Install LaTeX dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-xetex texlive-fonts-recommended texlive-latex-extra
 
-      # 4. Cria o diretório raiz para os PDFs
+      # 4. Cria pasta de saída
       - name: Create PDF output directory
         run: mkdir -p pdfs
 
-      # 5. Converte os arquivos Markdown para PDF
+      # 5. Converte Markdown para PDF
       - name: Convert Markdown files to PDF
         run: |
           find docs -type f -name "*.md" | while read -r file; do
@@ -45,18 +45,18 @@ jobs:
               -V linestretch=1.2
           done
 
-      # 6. (Opcional) Disponibiliza os PDFs como artefato no GitHub
+      # 6. (Opcional) Upload do artefato para o GitHub
       - name: Upload PDF artifacts to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: PDFs-gerados
           path: pdfs/
 
-      # 7. (CORRIGIDO) Faz o upload de cada PDF para o Google Drive
-      - name: Upload PDFs to Google Drive
-        uses: adityak74/google-drive-upload@v1
-        with:
-          credentials: ${{ secrets.GDRIVE_CREDENTIALS }}
-          folder-id: ${{ secrets.GDRIVE_FOLDER_ID }}
-          source: ./pdfs/
-          recursive: true
+      # 7. (DEFINITIVO) Upload para o Google Drive com rclone
+      - name: Upload PDFs to Google Drive using rclone
+        run: |
+          sudo apt-get install -y rclone
+          mkdir -p ~/.config/rclone
+          echo "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
+          echo "${{ secrets.GDRIVE_CREDENTIALS }}" > /tmp/gdrive_credentials.json
+          rclone copy ./pdfs/ "gdrive:${{ secrets.GDRIVE_FOLDER_ID }}" --progress
