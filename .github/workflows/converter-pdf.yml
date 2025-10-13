@@ -1,25 +1,46 @@
-name: Converter Markdown para PDF
+name: Build Markdown to PDF
 
+# Gatilhos: roda quando houver um push para a branch 'main'
 on:
   push:
     branches:
       - main
+    paths:
+      - "docs/**.md" # Só roda se arquivos .md na pasta docs forem alterados
+  workflow_dispatch: # Permite rodar manualmente pela interface do GitHub
 
 jobs:
-  build:
+  convert-markdown:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout do código
+      # 1. Pega o código do seu repositório
+      - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Converter Markdown para PDF
-        uses: BaileyJM02/markdown-to-pdf@v1
+      # 2. Instala o Pandoc e dependências LaTeX
+      - name: Set up Pandoc
+        uses: pandoc/actions/setup-pandoc@v1
         with:
-          input_path: "docs"
-          output_dir: "pdfs"
+          # A versão pode ser ajustada conforme necessário
+          version: "latest"
 
-      - name: Fazer o upload dos PDFs como artefatos
-        uses: actions/upload-artifact@v2
+      # 3. Cria o diretório para os PDFs
+      - name: Create PDF output directory
+        run: mkdir -p pdfs
+
+      # 4. Converte os arquivos Markdown para PDF
+      - name: Convert Markdown files to PDF
+        run: |
+          for file in docs/*.md; do
+            pandoc "$file" \
+              -o "pdfs/$(basename "${file%.md}").pdf" \
+              --pdf-engine=xelatex \
+              -V mainfont="DejaVu Sans" # Fonte que suporta muitos caracteres
+          done
+
+      # 5. Disponibiliza os PDFs gerados como um "artefato" do workflow
+      - name: Upload PDF artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: PDFs
-          path: pdfs
+          name: PDFs-gerados
+          path: pdfs/
