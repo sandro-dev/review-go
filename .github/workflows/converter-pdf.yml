@@ -20,11 +20,12 @@ jobs:
       - name: Set up Pandoc
         uses: pandoc/actions/setup@v1
 
-      # 3. (NOVO) Instala as dependências do LaTeX
+      # 3. Instala as dependências do LaTeX (versão mais completa)
       - name: Install LaTeX dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends texlive-xetex texlive-fonts-recommended texlive-latex-extra
+          # A flag --no-install-recommends foi removida para garantir que pacotes de fontes como o 'lmodern' sejam instalados.
+          sudo apt-get install -y texlive-xetex texlive-fonts-recommended texlive-latex-extra
 
       # 4. Cria o diretório raiz para os PDFs
       - name: Create PDF output directory
