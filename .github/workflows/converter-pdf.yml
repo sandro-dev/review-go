@@ -12,25 +12,21 @@ jobs:
   build-and-upload:
     runs-on: ubuntu-latest
     steps:
-      # 1. Checkout
+      # Passos 1 a 6 permanecem os mesmos...
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # 2. Setup Pandoc
       - name: Set up Pandoc
         uses: pandoc/actions/setup@v1
 
-      # 3. Instala dependências LaTeX
       - name: Install LaTeX dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-xetex texlive-fonts-recommended texlive-latex-extra
 
-      # 4. Cria pasta de saída
       - name: Create PDF output directory
         run: mkdir -p pdfs
 
-      # 5. Converte Markdown para PDF
       - name: Convert Markdown files to PDF
         run: |
           find docs -type f -name "*.md" | while read -r file; do
@@ -45,30 +41,23 @@ jobs:
               -V linestretch=1.2
           done
 
-      # 6. (Opcional) Upload do artefato para o GitHub
       - name: Upload PDF artifacts to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: PDFs-gerados
           path: pdfs/
 
-      # 7. (NOVO) DEBUG: Verifica o conteúdo real dos secrets
-      - name: Debug Secrets Content
-        run: |
-          echo "--- Verificando GDRIVE_CREDENTIALS ---"
-          echo "Primeiros 20 caracteres:"
-          echo "${{ secrets.GDRIVE_CREDENTIALS }}" | cut -c1-20
-          echo "--- Verificando RCLONE_CONF ---"
-          echo "Primeiros 20 caracteres:"
-          echo "${{ secrets.RCLONE_CONF }}" | cut -c1-20
-          echo "--- Fim do Debug ---"
-
-      # 8. (MELHORADO) Upload para o Google Drive com rclone
+      # 7. (ATUALIZADO) Upload para o Google Drive com rclone e decodificação Base64
       - name: Upload PDFs to Google Drive using rclone
         run: |
           sudo apt-get install -y rclone
           mkdir -p ~/.config/rclone
-          # Usando printf para mais segurança ao escrever os arquivos
+
+          # Escreve a configuração do rclone
           printf "%s" "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
-          printf "%s" "${{ secrets.GDRIVE_CREDENTIALS }}" > /tmp/gdrive_credentials.json
+
+          # Decodifica o secret Base64 e escreve o arquivo JSON original
+          echo "${{ secrets.GDRIVE_CREDENTIALS }}" | base64 --decode > /tmp/gdrive_credentials.json
+
+          # Executa o upload
           rclone copy ./pdfs/ "gdrive:${{ secrets.GDRIVE_FOLDER_ID }}" --progress
