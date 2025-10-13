@@ -20,18 +20,17 @@ jobs:
       - name: Set up Pandoc
         uses: pandoc/actions/setup@v1
 
-      # 3. Instala as dependências do LaTeX (versão mais completa)
+      # 3. Instala as dependências do LaTeX
       - name: Install LaTeX dependencies
         run: |
           sudo apt-get update
-          # A flag --no-install-recommends foi removida para garantir que pacotes de fontes como o 'lmodern' sejam instalados.
           sudo apt-get install -y texlive-xetex texlive-fonts-recommended texlive-latex-extra
 
       # 4. Cria o diretório raiz para os PDFs
       - name: Create PDF output directory
         run: mkdir -p pdfs
 
-      # 5. Converte os arquivos Markdown para PDF
+      # 5. Converte os arquivos Markdown para PDF com formatação aprimorada
       - name: Convert Markdown files to PDF
         run: |
           find docs -type f -name "*.md" | while read -r file; do
@@ -44,7 +43,10 @@ jobs:
             pandoc "$file" \
               -o "$output_file" \
               --pdf-engine=xelatex \
-              -V mainfont="DejaVu Sans"
+              -V fontsize=11pt \
+              -V mainfont="DejaVu Sans" \
+              -V geometry:"left=2cm,right=2cm,top=2.5cm,bottom=2.5cm" \
+              -V linestretch=1.2
           done
 
       # 6. Disponibiliza os PDFs gerados como um "artefato"
