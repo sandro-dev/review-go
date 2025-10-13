@@ -15,18 +15,14 @@ jobs:
       # Passos 1 a 6 permanecem os mesmos...
       - name: Check out repository
         uses: actions/checkout@v4
-
       - name: Set up Pandoc
         uses: pandoc/actions/setup@v1
-
       - name: Install LaTeX dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y texlive-xetex texlive-fonts-recommended texlive-latex-extra
-
       - name: Create PDF output directory
         run: mkdir -p pdfs
-
       - name: Convert Markdown files to PDF
         run: |
           find docs -type f -name "*.md" | while read -r file; do
@@ -40,24 +36,20 @@ jobs:
               -V geometry:"left=2cm,right=2cm,top=2.5cm,bottom=2.5cm" \
               -V linestretch=1.2
           done
-
       - name: Upload PDF artifacts to GitHub
         uses: actions/upload-artifact@v4
         with:
           name: PDFs-gerados
           path: pdfs/
 
-      # 7. (ATUALIZADO) Upload para o Google Drive com rclone e decodificação Base64
+      # 7. (SIMPLIFICADO) Upload para o Google Drive com autenticação pessoal
       - name: Upload PDFs to Google Drive using rclone
         run: |
           sudo apt-get install -y rclone
           mkdir -p ~/.config/rclone
 
-          # Escreve a configuração do rclone
+          # Escreve a configuração do rclone a partir do secret (que agora tem seu token pessoal)
           printf "%s" "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
 
-          # Decodifica o secret Base64 e escreve o arquivo JSON original
-          echo "${{ secrets.GDRIVE_CREDENTIALS }}" | base64 --decode > /tmp/gdrive_credentials.json
-
-          # Executa o upload
+          # O ID da pasta ainda vem do secret GDRIVE_FOLDER_ID, mas a pasta está no seu "Meu Drive"
           rclone copy ./pdfs/ "gdrive:${{ secrets.GDRIVE_FOLDER_ID }}" --progress
