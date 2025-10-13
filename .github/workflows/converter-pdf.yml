@@ -12,7 +12,6 @@ jobs:
   build-and-upload:
     runs-on: ubuntu-latest
     steps:
-      # Passos 1 a 6 permanecem os mesmos...
       - name: Check out repository
         uses: actions/checkout@v4
       - name: Set up Pandoc
@@ -42,14 +41,11 @@ jobs:
           name: PDFs-gerados
           path: pdfs/
 
-      # 7. (FINAL E CORRIGIDO) Upload com Base64 e novo nome de remote
       - name: Upload PDFs to Google Drive using rclone
         run: |
           sudo apt-get install -y rclone
           mkdir -p ~/.config/rclone
-
-          # MUDANÇA 1: Decodifica o secret RCLONE_CONF para criar o arquivo de configuração
           echo "${{ secrets.RCLONE_CONF }}" | base64 --decode > ~/.config/rclone/rclone.conf
 
-          # MUDANÇA 2: Usa o novo nome de remote "googledrive" no comando
-          rclone copy ./pdfs/ "googledrive:${{ secrets.GDRIVE_FOLDER_ID }}" --progress
+
+          rclone copy ./pdfs/ "googledrive:" --drive-root-folder-id "${{ secrets.GDRIVE_FOLDER_ID }}" --progress
