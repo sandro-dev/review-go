@@ -53,6 +53,7 @@ jobs:
           path: pdfs/
 
       # 7. (NOVO) Faz o upload de cada PDF para o Google Drive
+      #
       - name: Upload PDFs to Google Drive
         uses: burnett01/upload-to-google-drive@v1.0.1
         with:
