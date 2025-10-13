@@ -19,9 +19,9 @@ jobs:
 
       # 2. Instala o Pandoc e dependências LaTeX
       - name: Set up Pandoc
-        uses: pandoc/actions/setup-pandoc@v1
+        # AQUI ESTÁ A CORREÇÃO! O nome correto da action é 'setup'
+        uses: pandoc/actions/setup@v1
         with:
-          # A versão pode ser ajustada conforme necessário
           version: "latest"
 
       # 3. Cria o diretório para os PDFs
@@ -32,10 +32,11 @@ jobs:
       - name: Convert Markdown files to PDF
         run: |
           for file in docs/*.md; do
+            # Usando 'basename' para garantir que o nome do arquivo seja limpo
             pandoc "$file" \
               -o "pdfs/$(basename "${file%.md}").pdf" \
               --pdf-engine=xelatex \
-              -V mainfont="DejaVu Sans" # Fonte que suporta muitos caracteres
+              -V mainfont="DejaVu Sans" # Fonte recomendada para bom suporte a caracteres (acentos, etc.)
           done
 
       # 5. Disponibiliza os PDFs gerados como um "artefato" do workflow
