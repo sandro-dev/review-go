@@ -1,13 +1,12 @@
 name: Build Markdown to PDF
 
-# Gatilhos: roda quando houver um push para a branch 'main'
 on:
   push:
     branches:
       - main
     paths:
-      - "docs/**.md" # Só roda se arquivos .md na pasta docs forem alterados
-  workflow_dispatch: # Permite rodar manualmente pela interface do GitHub
+      - "docs/**.md"
+  workflow_dispatch:
 
 jobs:
   convert-markdown:
@@ -17,12 +16,10 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      # 2. Instala o Pandoc e dependências LaTeX
+      # 2. Instala a ÚLTIMA versão do Pandoc e dependências LaTeX
       - name: Set up Pandoc
-        # AQUI ESTÁ A CORREÇÃO! O nome correto da action é 'setup'
+        # CORREÇÃO: Removido o 'with:' para que a action use o comportamento padrão (instalar a versão mais recente)
         uses: pandoc/actions/setup@v1
-        with:
-          version: "latest"
 
       # 3. Cria o diretório para os PDFs
       - name: Create PDF output directory
@@ -32,11 +29,10 @@ jobs:
       - name: Convert Markdown files to PDF
         run: |
           for file in docs/*.md; do
-            # Usando 'basename' para garantir que o nome do arquivo seja limpo
             pandoc "$file" \
               -o "pdfs/$(basename "${file%.md}").pdf" \
               --pdf-engine=xelatex \
-              -V mainfont="DejaVu Sans" # Fonte recomendada para bom suporte a caracteres (acentos, etc.)
+              -V mainfont="DejaVu Sans"
           done
 
       # 5. Disponibiliza os PDFs gerados como um "artefato" do workflow
