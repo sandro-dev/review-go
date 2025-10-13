@@ -1,0 +1,25 @@
+name: Converter Markdown para PDF
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v2
+
+      - name: Converter Markdown para PDF
+        uses: BaileyJM02/markdown-to-pdf@v1
+        with:
+          input_path: "docs"
+          output_dir: "pdfs"
+
+      - name: Fazer o upload dos PDFs como artefatos
+        uses: actions/upload-artifact@v2
+        with:
+          name: PDFs
+          path: pdfs
