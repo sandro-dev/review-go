@@ -42,14 +42,14 @@ jobs:
           name: PDFs-gerados
           path: pdfs/
 
-      # 7. (SIMPLIFICADO) Upload para o Google Drive com autenticação pessoal
+      # 7. (FINAL E CORRIGIDO) Upload com Base64 e novo nome de remote
       - name: Upload PDFs to Google Drive using rclone
         run: |
           sudo apt-get install -y rclone
           mkdir -p ~/.config/rclone
 
-          # Escreve a configuração do rclone a partir do secret (que agora tem seu token pessoal)
-          printf "%s" "${{ secrets.RCLONE_CONF }}" > ~/.config/rclone/rclone.conf
+          # MUDANÇA 1: Decodifica o secret RCLONE_CONF para criar o arquivo de configuração
+          echo "${{ secrets.RCLONE_CONF }}" | base64 --decode > ~/.config/rclone/rclone.conf
 
-          # O ID da pasta ainda vem do secret GDRIVE_FOLDER_ID, mas a pasta está no seu "Meu Drive"
+          # MUDANÇA 2: Usa o novo nome de remote "googledrive" no comando
           rclone copy ./pdfs/ "googledrive:${{ secrets.GDRIVE_FOLDER_ID }}" --progress
