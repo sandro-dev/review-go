@@ -1,4 +1,4 @@
-package main
+package hard
 
 /*
 Modele a estrutura de um blog simples. Crie uma struct Post com os campos ID (int), Titulo
@@ -26,7 +26,7 @@ type Post struct {
 	Comentarios []Comentario
 }
 
-func main() {
+func RunQuestion05() {
 
 	blog := map[int]Post{}
 
