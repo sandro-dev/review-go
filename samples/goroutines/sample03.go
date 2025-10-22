@@ -1,11 +1,11 @@
-package main
+package goroutines
 
 import (
 	"fmt"
 	"sync"
 )
 
-func main() {
+func RunSample03() {
 	var i int
 	var wg sync.WaitGroup
 	var m sync.Mutex
