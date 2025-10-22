@@ -1,4 +1,4 @@
-package main
+package intermediary
 
 import (
 	"fmt"
@@ -16,7 +16,7 @@ type Autor struct {
 	Nacionalidade string
 }
 
-type Livro struct {
+type Book struct {
 	Titulo        string
 	AnoPublicacao int
 	AutorInfo     Autor
@@ -29,7 +29,7 @@ func main() {
 		Nacionalidade: "Brasileiro",
 	}
 
-	livro := Livro{
+	livro := Book{
 		Titulo:        "O óbvio que ignoramos",
 		AnoPublicacao: 2020,
 		AutorInfo:     autor,
