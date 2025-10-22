@@ -1,4 +1,4 @@
-package main
+package goroutines
 
 import (
 	"fmt"
@@ -30,7 +30,7 @@ func processInterno(wg *sync.WaitGroup) {
 	fmt.Println("FINALIZADO: processInterno")
 }
 
-func main() {
+func Sample01() {
 
 	fmt.Println("Iniciando processos concorrentes...")
 
